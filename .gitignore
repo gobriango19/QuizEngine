@@ -210,3 +210,9 @@ Web.Release.config
 
 # IDEA IDE settings
 .idea/
+
+# TFS ignore file
+.tfignore
+
+# Package diagram
+Packages.dgml
