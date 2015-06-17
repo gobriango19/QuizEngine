@@ -1,0 +1,25 @@
+﻿@using System.Text.RegularExpressions
+
+@model string
+
+@{
+    int maxLength = 50;
+    var truncated = string.Empty;
+
+    if (!string.IsNullOrEmpty(Model))
+    {
+        truncated = Model;
+        if (truncated.Length > maxLength)
+        {
+            truncated = truncated.Substring(0, maxLength);
+            var match = Regex.Match(truncated, @"[A-Za-z0-9]\W", RegexOptions.RightToLeft);
+            if (match.Success)
+            {
+                truncated = truncated.Substring(0, (match.Index + 1));
+            }
+            truncated = string.Format(@"{0}...", truncated);
+        }
+    }
+}
+
+@truncated

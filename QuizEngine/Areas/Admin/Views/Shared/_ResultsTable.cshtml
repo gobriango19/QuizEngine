@@ -1,0 +1,48 @@
+﻿@using QuizEngine.Models
+
+@model List<Result>
+
+@if(Model.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th class="text-center">Min</th>
+            <th class="text-center">Max</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach(Result result in Model)
+        {
+            <tr style="font-size: 85%">
+                <td>@Html.DisplayFor(m => result.ResultId)</td>
+                <td>@Html.DisplayFor(m => result.Name, "TruncatedString50")</td>
+                <td>@Html.DisplayFor(m => result.Description, "TruncatedString75")</td>
+                <td class="text-center">@Html.DisplayFor(m => result.MinScore)</td>
+                <td class="text-center">@Html.DisplayFor(m => result.MaxScore)</td>
+                <td class="text-right">
+                    @Html.ActionLink("Edit", "EditResult",
+                        new { area = "Admin", controller = "Results", resultId = result.ResultId })
+                    /
+                    @Ajax.ActionLink("Delete", "DeleteResult",
+                        new { area = "Admin", controller = "Results", resultId = result.ResultId, quizId = result.QuizId },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            Confirm = "Are you sure you want to delete this result?",
+                            UpdateTargetId = "resultsTable"
+                        })
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>There are no results associated with this quiz.</p>
+}

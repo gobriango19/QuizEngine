@@ -1,0 +1,81 @@
+﻿@using QuizEngine.Models
+
+@model Answer
+           
+@if(Model.AnswerId != 0)
+{
+    <div class="small">
+        <strong>@Html.DisplayNameFor(m => m.AnswerId):</strong>
+        @Html.DisplayFor(m => m.AnswerId)
+    </div>
+    @Html.HiddenFor(m => m.AnswerId)
+}
+
+<div class="form-group">
+    @Html.LabelFor(m => m.AnswerText)
+    @Html.ValidationMessageFor(m => m.AnswerText)
+    @Html.TextAreaFor(m => m.AnswerText,
+        new
+        {
+            @class = "form-control",
+            @placeholder = "Enter answer",
+            @rows = "5"
+        })
+    <div id="answerTextAreaCharCount" class="small text-right"></div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Sequence)
+    @Html.ValidationMessageFor(m => m.Sequence)
+    @Html.EditorFor(m => m.Sequence,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter sequence"
+            }
+        })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Score)
+    @Html.ValidationMessageFor(m => m.Sequence)
+    @Html.EditorFor(m => m.Score,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter score"
+            }
+        })
+    @Html.ValidationMessageFor(m => m.Score)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.ImageUrl)
+    @Html.ValidationMessageFor(m => m.Sequence)
+    @Html.EditorFor(m => m.ImageUrl,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter image URL"
+            }
+        })
+    @Html.ValidationMessageFor(m => m.ImageUrl)
+</div>
+
+@if (Model.CreateDate != null || Model.UpdateDate != null)
+{
+    <div class="small text-right">
+        <strong>@Html.DisplayNameFor(m => m.CreateDate):</strong>
+        @Html.DisplayFor(m => m.CreateDate)<br />
+        <strong>@Html.DisplayNameFor(m => m.UpdateDate):</strong>
+        @Html.DisplayFor(m => m.UpdateDate)
+    </div>
+}
+
+@Html.HiddenFor(m => m.QuestionId)

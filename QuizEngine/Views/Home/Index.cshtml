@@ -1,0 +1,80 @@
+﻿@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!--<div id="app-container">-->
+    <div id="main-region" class="container-fluid center-block">
+
+    </div>
+<!--</div>
+
+<!-- begin templates -->
+<script type="text/template" id="general-messaging">
+    <div class="js-message"><%- message %></div>
+</script>
+
+<script type="text/template" id="quizzes-list">
+</script>
+
+<script type="text/template" id="quizzes-list-individual">
+    <p class="list-group-item-heading js-name">
+        <strong><a href="#quizzes/<%- quizId %>" class="js-name-link"><%- name %></a></strong>
+    </p>
+    <% if(description) { %>
+        <p class="list-group-item-text js-description"><%- description %></p>
+    <% } %>
+</script>
+
+<script type="text/template" id="quiz-show-layout">
+    <div id="quiz-region"></div>
+    <div id="question-region"></div>
+    <div id="answers-region"></div>
+    <div id="result-region"></div>
+</script>
+
+<script type="text/template" id="quiz-show">
+    <h3><%- name %></h3>
+    <% if(description) { %>
+        <div class="quiz-description"><%- description %></div>
+    <% } %>
+</script>
+
+<script type="text/template" id="question-show">
+    <h4><%- questionText %></h4>
+</script>
+
+<script type="text/template" id="answers-show">
+</script>
+
+<script type="text/template" id="answers-show-individual">
+    <div class="selectable-inner">
+        <strong><%- answerText %></strong>
+    </div>
+</script>
+
+<script type="text/template" id="result-show">
+    <h4><%- name %></h4>
+    <% if(imageUrl) { %>
+        <div class="result-image"></div>
+    <% } %>
+    <% if(description) { %>
+        <div class="result-description"><%- description %></div>
+    <% } %>
+    <div class="result-links">
+        <a href="#quizzes/<%- quizId %>" class="js-play-again-link">Play again</a><br />
+        <a href="#quizzes" class="js-play-another-link">Play another quiz</a>
+    </div>
+</script>
+<!-- end templates -->
+
+@section FooterScripts
+{
+    @Scripts.Render("~/bundles/backbonemarionette")
+    @Scripts.Render("~/bundles/clientspa")
+
+    <script type="text/javascript">
+        QuizEngine.start();
+    </script>
+}

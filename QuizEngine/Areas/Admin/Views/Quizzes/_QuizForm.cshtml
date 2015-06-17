@@ -1,0 +1,67 @@
+﻿@using QuizEngine.Models
+
+@model Quiz
+
+@if(Model.QuizId != 0)
+{
+    <div class="small">
+        <strong>@Html.DisplayNameFor(m => m.QuizId):</strong>
+        @Html.DisplayFor(m => m.QuizId)
+    </div>
+    @Html.HiddenFor(m => m.QuizId)
+}
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Name)
+    @Html.ValidationMessageFor(m => m.Name)
+    @Html.EditorFor(m => m.Name,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter name"
+            }
+        })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Description)
+    @Html.ValidationMessageFor(m => m.Description)
+    @Html.TextAreaFor(m => m.Description, 
+        new
+        {
+            @class = "form-control",
+            @placeholder = "Enter description",
+            @rows = "5"
+        })
+    <div id="quizDescTextAreaCharCount" class="small text-right"></div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.ImageUrl)
+    @Html.ValidationMessageFor(m => m.ImageUrl)
+    @Html.EditorFor(m => m.ImageUrl, 
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter image URL"
+            }
+        })
+    
+</div>
+<div class="checkbox">
+    <label>@Html.EditorFor(m => m.IsActive) <strong>Active?</strong></label>    
+</div>
+
+@if (Model.CreateDate != null || Model.UpdateDate != null)
+{
+    <div class="small text-right">
+        <strong>@Html.DisplayNameFor(m => m.CreateDate):</strong>
+        @Html.DisplayFor(m => m.CreateDate)<br/>
+        <strong>@Html.DisplayNameFor(m => m.UpdateDate):</strong>
+        @Html.DisplayFor(m => m.UpdateDate)
+    </div>
+}
+
+

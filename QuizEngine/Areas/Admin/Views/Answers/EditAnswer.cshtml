@@ -1,0 +1,56 @@
+﻿@using System.Web.Optimization
+@using QuizEngine.Models
+
+@model Answer
+
+@{
+    ViewBag.Title = "Edit Answer";
+}
+
+@section HeaderScripts
+{
+    
+}
+
+<ol class="breadcrumb">
+    <li><strong>Quiz Engine Admin</strong></li>
+    <li>@Html.ActionLink("All Quizzes", "Index", new { area = "Admin", controller = "Quizzes" })</li>
+    <li>
+        @Html.ActionLink("Edit Quiz (" + Model.Question.QuizId + ")", "EditQuiz",
+            new { area = "Admin", controller = "Quizzes", quizId = Model.Question.QuizId })
+    </li>
+    <li>@Html.ActionLink("Edit Question (" + Model.QuestionId + ")", "EditQuestion",
+            new { area = "Admin", controller = "Questions", questionId = Model.QuestionId })
+    <li class="active">Edit Answer (@Html.DisplayFor(m => m.AnswerId))</li>
+</ol>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Edit Answer</div>
+    <div class="panel-body">
+        @using(Ajax.BeginForm("EditAnswer", new { area = "Admin", controller = "Answers", answerId = Model.AnswerId },
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "editAnswerFormDiv",
+                OnComplete = "bindEditAnswerTextArea",
+                OnSuccess = "displayEditAnswerSuccessMsg"
+            },
+            new { id = "editAnswerForm", role = "form" }))
+        {
+            <div id="editAnswerFormMsgDiv" class="text-center"></div>
+            <div id="editAnswerFormDiv">@{ Html.RenderPartial("_AnswerForm", Model); }</div>
+
+            <button type="submit" class="btn btn-primary">Edit Answer</button>
+        }
+    </div>
+</div>
+
+@section FooterScripts
+{
+    @Scripts.Render("~/bundle/requirejs")
+    <script>
+        require(["/Scripts/config.js"], function(config) {
+            require(["Admin/editAnswer"]);
+        });
+    </script>
+}

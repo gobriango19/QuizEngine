@@ -1,0 +1,93 @@
+﻿@using QuizEngine.Models
+
+@model Result
+           
+@if (Model.ResultId != 0)
+{
+    <div class="small">
+        <strong>@Html.DisplayNameFor(m => m.ResultId):</strong>
+        @Html.DisplayFor(m => m.ResultId)
+    </div>
+    @Html.HiddenFor(m => m.ResultId)
+}
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Name)
+    @Html.ValidationMessageFor(m => m.Name)
+    @Html.EditorFor(m => m.Name,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter name"
+            }
+        })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Description)
+    @Html.ValidationMessageFor(m => m.Description)
+    @Html.TextAreaFor(m => m.Description,
+        new
+        {
+            @class = "form-control",
+            @placeholder = "Enter description",
+            @rows = "5"                
+        })
+    <div id="resultDescTextAreaCharCount" class="small text-right"></div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.MinScore)
+    @Html.ValidationMessageFor(m => m.MinScore)
+    @Html.EditorFor(m => m.MinScore,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter minimum score"
+            }
+        })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.MaxScore)
+    @Html.ValidationMessageFor(m => m.MaxScore)
+    @Html.EditorFor(m => m.MaxScore,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter maximum score"
+            }
+        })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.ImageUrl)
+    @Html.ValidationMessageFor(m => m.ImageUrl)
+    @Html.EditorFor(m => m.ImageUrl,
+        new
+        {
+            htmlAttributes = new
+            {
+                @class = "form-control",
+                @placeholder = "Enter image URL"
+            }
+        })
+</div>
+
+@if (Model.CreateDate != null || Model.UpdateDate != null)
+{
+    <div class="small text-right">
+        <strong>@Html.DisplayNameFor(m => m.CreateDate):</strong>
+        @Html.DisplayFor(m => m.CreateDate)<br />
+        <strong>@Html.DisplayNameFor(m => m.UpdateDate):</strong>
+        @Html.DisplayFor(m => m.UpdateDate)
+    </div>
+}
+
+@Html.HiddenFor(m => m.QuizId)

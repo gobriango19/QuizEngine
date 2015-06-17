@@ -1,0 +1,189 @@
+﻿@using System.Web.Optimization
+@using QuizEngine.Models
+
+@model Quiz
+
+@{
+    ViewBag.Title = "Edit Quiz";
+}
+
+@section HeaderScripts
+{
+    @Scripts.Render("~/bundle/requirejs")
+    <script>
+        require(["/Scripts/config.js"], function(config) {
+            require(["Admin/editQuiz"]);
+        });
+    </script>
+}
+
+<ol class="breadcrumb">
+    <li><strong>Quiz Engine Admin</strong></li>
+    <li>@Html.ActionLink("All Quizzes", "Index", new { area = "Admin", controller = "Quizzes" })</li>
+    <li class="active">Edit Quiz (@Html.DisplayFor(m => m.QuizId))</li>
+</ol>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Edit Quiz</div>
+    <div class="panel-body">
+        @using(Ajax.BeginForm("EditQuiz", new { area = "Admin", controller = "Quizzes", quizId = Model.QuizId },
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "editQuizFormDiv",
+                OnComplete = "bindEditQuizTextArea()",
+                OnSuccess = "displayEditQuizSuccessMsg()"
+            },
+            new { id = "editQuizForm", role = "form" }))
+        {
+            <div id="editQuizFormMsgDiv" class="text-center"></div>
+            <div id="editQuizFormDiv">@{ Html.RenderPartial("_QuizForm", Model); }</div>
+
+            <button type="submit" class="btn btn-primary">Edit Quiz</button>
+        }
+    </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">Questions Associated With This Quiz</div>
+    <div class="panel-body">
+        <div id="questionsTable" class="table-responsive">
+            @{ Html.RenderPartial("_QuestionsTable", Model.Questions); }
+        </div>
+
+        <div class="row-centered">
+            <div class="col-centered" style="width: 90%">
+                @using (Ajax.BeginForm("AddQuestion",
+                    new { area = "Admin", controller = "Questions" },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "questionsTable",
+                        OnSuccess = "$('#addQuestionForm').trigger('reset')"
+                    },
+                    new { id = "addQuestionForm", role = "form" }))
+                {
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Question().QuestionText)
+                        @Html.ValidationMessageFor(m => new Question().QuestionText)
+                        @Html.TextAreaFor(m => new Question().QuestionText,
+                        new
+                        {
+                            @class = "form-control",
+                            @placeholder = "Enter question",
+                            @rows = "5"
+                        })
+                        <div id="questionTextAreaCharCount" class="small text-right"></div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Question().Sequence)
+                        @Html.ValidationMessageFor(m => new Question().Sequence)
+                        @Html.EditorFor(m => new Question().Sequence,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter sequence"
+                            }
+                        })
+                    </div>
+
+                    @Html.HiddenFor(m => Model.QuizId)
+
+                    <button type="submit" class="btn btn-info">Add Question</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">Results Associated With This Quiz</div>
+    <div class="panel-body">
+        <div id="resultsTable" class="table-responsive">
+            @{ Html.RenderPartial("_ResultsTable", Model.Results); }
+        </div>
+
+        <div class="row-centered">
+            <div class="col-centered" style="width: 90%">
+                @using(Ajax.BeginForm("AddResult",
+                    new { area = "Admin", controller = "Results" },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "resultsTable",
+                        OnSuccess = "$('#addResultForm').trigger('reset')"
+                    },
+                    new { id = "addResultForm", role = "form" }))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Result().Name)
+                        @Html.ValidationMessageFor(m => new Result().Name)
+                        @Html.EditorFor(m => new Result().Name,
+                            new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Enter name"
+                                }
+                            })
+                    </div>                    
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Result().Description)
+                        @Html.ValidationMessageFor(m => new Result().Description)
+                        @Html.TextAreaFor(m => new Result().Description,
+                            new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter description",
+                                @rows = "5"
+                            })
+                        <div id="resultDescTextAreaCharCount" class="small text-right"></div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Result().MinScore)
+                        @Html.ValidationMessageFor(m => new Result().MinScore)
+                        @Html.EditorFor(m => new Result().MinScore,
+                            new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Enter min score"
+                                }
+                            })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Result().MaxScore)
+                        @Html.ValidationMessageFor(m => new Result().MaxScore)
+                        @Html.EditorFor(m => new Result().MaxScore,
+                            new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Enter max score"
+                                }
+                            })
+                    </div>
+
+                    @Html.HiddenFor(m => m.QuizId)
+
+                    <button type="submit" class="btn btn-info">Add Result</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterScripts
+{
+    @*@Scripts.Render("~/bundles/quizengine/admin/editquiz")*@
+}

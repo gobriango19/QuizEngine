@@ -1,0 +1,86 @@
+﻿@using System.Web.Optimization
+@using QuizEngine.Models
+
+@model List<Quiz>
+
+@{
+    ViewBag.Title = "All Quizzes";
+}
+
+@section HeaderScripts
+{
+
+}
+
+<ol class="breadcrumb">
+    <li><strong>Quiz Engine Admin</strong></li>
+    <li class="active">All Quizzes</li>
+</ol>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">All Quizzes</div>
+    <div class="panel-body">
+        <div id="quizzesTable" class="table-responsive">
+            @{ Html.RenderPartial("_QuizzesTable", Model); }
+        </div>
+
+        <div class="row-centered">
+            <div class="col-centered" style="width: 90%">
+                @using(Ajax.BeginForm("AddQuiz",
+                    new { area = "Admin", controller = "Quizzes" },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "quizzesTable",
+                        OnSuccess = "$('#addQuizForm').trigger('reset')"
+                    },
+                    new { id = "addQuizForm", role = "form" }))
+                {
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Quiz().Name)
+                        @Html.ValidationMessageFor(m => new Quiz().Name)
+                        @Html.EditorFor(m => new Quiz().Name,
+                            new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Enter name"
+                                }
+                            })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => new Quiz().Description)
+                        @Html.ValidationMessageFor(m => new Quiz().Description)
+                        @Html.TextAreaFor(m => new Quiz().Description,
+                            new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter description",
+                                @rows = "5"
+                            })
+                        <div id="descTextAreaCharCount" class="small text-right"></div>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>@Html.EditorFor(m => new Quiz().IsActive) <strong>Active?</strong></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Quiz</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterScripts
+{
+    @Scripts.Render("~/bundle/requirejs")
+    <script>
+        require(["/Scripts/config.js"], function(config) {
+            require(["Admin/allQuizzes"]);
+        });
+    </script>
+}
