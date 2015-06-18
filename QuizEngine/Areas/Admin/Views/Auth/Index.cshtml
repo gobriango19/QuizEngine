@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Log In";
+    
+    bool logInFailed = false;
+    if(ViewBag.LogInFailed != null)
+    {
+        logInFailed = true;
+    }
+}
+
+<div class="row-centered">
+    <div class="col-centered" style="width: 50%; min-width: 300px;">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Admin Log In</div>
+            <div class="panel-body">
+                @if(logInFailed)
+                {
+                    <p class="text-danger">The log in credential was incorrect. Please try again.</p>
+                }
+                @using(Html.BeginForm("Login", "Auth", new { area = "Admin" }, FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("UserName", "User Name")
+                        @Html.TextBox("userName", null, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("password", "Password")
+                        @Html.Password("password", null, new { @class = "form-control" })
+                    </div>
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

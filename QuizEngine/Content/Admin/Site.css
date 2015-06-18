@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    /*padding-top: 20px;*/
+    padding-bottom: 10px;
 }
 
 .field-validation-error {
@@ -23,6 +23,19 @@
     margin-right: -4px;
 }
 
+#top-nav {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    background-color: #555;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+#nav-link-logout {
+    float: right;
+    color: #fff;
+}
 
 /* Set padding to keep content from hitting the edges */
 /*

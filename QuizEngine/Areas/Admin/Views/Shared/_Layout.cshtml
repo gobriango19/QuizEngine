@@ -20,6 +20,14 @@
     @RenderSection("HeaderScripts", false)
 </head>
 <body>
+    <div id="top-nav">
+        <strong>Quiz Engine Admin</strong>
+        @if(User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink("Log Out", "LogOut", new { area = "Admin", controller = "Auth" }, new { @id="nav-link-logout" })
+        }
+    </div>
+
     <div class="container-fluid">
         @RenderBody()
     </div>

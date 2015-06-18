@@ -159,6 +159,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\TruncatedString75.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\TruncatedString50.cshtml" />
+    <Content Include="Areas\Admin\Views\Auth\Index.cshtml" />
     <None Include="Scripts\jquery-1.11.2.intellisense.js" />
     <Content Include="Icon.png" />
     <Content Include="Scripts\Admin\allQuizzes.js" />
@@ -204,7 +205,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AnswersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuizzesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ResultsController.cs" />

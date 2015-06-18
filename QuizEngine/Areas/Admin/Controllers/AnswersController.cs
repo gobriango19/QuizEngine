@@ -11,7 +11,7 @@ namespace QuizEngine.Areas.Admin.Controllers
 {
     [RouteArea("admin")]
     [RoutePrefix("answers")]
-    public class AnswersController : Controller
+    public class AnswersController : BaseAdminController
     {
         [HttpPost]
         [Route("add")]

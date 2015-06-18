@@ -10,7 +10,7 @@ namespace QuizEngine.Areas.Admin.Controllers
 {
     [RouteArea("admin")]
     [RoutePrefix("quizzes")]
-    public class QuizzesController : Controller
+    public class QuizzesController : BaseAdminController
     {
         [HttpGet]
         [Route("~/admin")]

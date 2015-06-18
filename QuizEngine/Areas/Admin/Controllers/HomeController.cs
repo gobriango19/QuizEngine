@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace QuizEngine.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseAdminController
     {
         public ActionResult Index()
         {
