@@ -162,6 +162,7 @@
     <Content Include="Areas\Admin\Views\Auth\Index.cshtml" />
     <None Include="Scripts\jquery-1.11.2.intellisense.js" />
     <Content Include="Icon.png" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\Admin\allQuizzes.js" />
     <Content Include="Scripts\Admin\editAnswer.js" />
     <Content Include="Scripts\Admin\editQuestion.js" />

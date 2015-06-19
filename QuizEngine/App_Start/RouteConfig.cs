@@ -13,6 +13,8 @@ namespace QuizEngine
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("robots.txt");
+
             routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
