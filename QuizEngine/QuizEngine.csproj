@@ -37,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -160,6 +161,9 @@
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\TruncatedString75.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\TruncatedString50.cshtml" />
     <Content Include="Areas\Admin\Views\Auth\Index.cshtml" />
+    <Content Include=".ebextensions\01_idle_time.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-1.11.2.intellisense.js" />
     <Content Include="Icon.png" />
     <Content Include="robots.txt" />

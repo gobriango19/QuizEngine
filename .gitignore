@@ -216,3 +216,7 @@ Web.Release.config
 
 # Package diagram
 Packages.dgml
+
+# Elastic Beanstalk configuration directory and files
+.ebextensions/
+

@@ -1,8 +1,8 @@
 ﻿QuizEngine.module("QuizApp", function(QuizApp, QuizEngine, Backbone, Marionette, $, _) {
     QuizApp.Router = Marionette.AppRouter.extend({
         appRoutes: {
-            "quizzes": "listQuizzes",
-            "quizzes/:quizId": "showQuiz"
+            "quizzes(/)": "listQuizzes",
+            "quizzes/:quizId(/)": "showQuiz"
         }
     });
 

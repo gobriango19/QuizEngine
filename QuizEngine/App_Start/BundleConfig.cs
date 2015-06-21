@@ -40,8 +40,7 @@ namespace QuizEngine
                 "~/Scripts/ClientSPA/QuizApp/List/list_views.js",
                 "~/Scripts/ClientSPA/QuizApp/List/list_controller.js",
                 "~/Scripts/ClientSPA/QuizApp/Show/show_views.js",
-                "~/Scripts/ClientSPA/QuizApp/Show/show_controller.js"
-                ));
+                "~/Scripts/ClientSPA/QuizApp/Show/show_controller.js"));
 
             // admin pages bundles
             bundles.Add(new ScriptBundle("~/bundles/quizengine/admin/allquizzes").Include(
