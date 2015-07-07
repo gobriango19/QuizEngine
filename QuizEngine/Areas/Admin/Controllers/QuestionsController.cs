@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using QuizEngine.Data.Repositories;
 using QuizEngine.Models;
+using QuizEngine.Data;
 
 namespace QuizEngine.Areas.Admin.Controllers
 {
@@ -18,13 +19,15 @@ namespace QuizEngine.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
-                question = QuestionRepository.AddQuestion(question);
-
-                var questions = QuestionRepository.GetQuestionsForQuiz(question.QuizId, false);
-
+                IEnumerable<Question> questions = null;
+                using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+                {
+                    var questionRepository = new QuestionRepository(dbUnitOfWork);
+                    question = questionRepository.Add(question);
+                    questions = questionRepository.GetQuestionsForQuiz(question.QuizId, false);
+                }
                 return PartialView("_QuestionsTable", questions);
             }
-
             return View(question);
         }
 
@@ -32,8 +35,12 @@ namespace QuizEngine.Areas.Admin.Controllers
         [Route("edit/{questionId:long}")]
         public ActionResult EditQuestion(long questionId)
         {
-            var question = QuestionRepository.GetQuestion(questionId, false);
-
+            Question question = null;
+            using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                question = questionRepository.Get(questionId, false);
+            }
             return View(question);
         }
 
@@ -43,9 +50,12 @@ namespace QuizEngine.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
-                question = QuestionRepository.UpdateQuestion(question);
+                using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+                {
+                    var questionRepository = new QuestionRepository(dbUnitOfWork);
+                    question = questionRepository.Update(question);
+                }
             }
-
             return PartialView("_QuestionForm", question);
         }
 
@@ -53,10 +63,13 @@ namespace QuizEngine.Areas.Admin.Controllers
         [Route("~/quizzes/{quizId:long}/questions/delete/{questionId:long}")]
         public ActionResult DeleteQuestion(long questionId, long quizId)
         {
-            QuestionRepository.DeleteQuestion(questionId);
-
-            var questions = QuestionRepository.GetQuestionsForQuiz(quizId, false);
-
+            IEnumerable<Question> questions = null;
+            using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                questionRepository.Delete(questionId);
+                questions = questionRepository.GetQuestionsForQuiz(quizId, false);
+            }
             return PartialView("_QuestionsTable", questions);
         }
     }

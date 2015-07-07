@@ -19,13 +19,14 @@ namespace QuizEngine.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
-                answer = AnswerRepository.AddAnswer(answer);
-
-                var answers = AnswerRepository.GetAnswersForQuestion(answer.QuestionId, false);
-                
-                return PartialView("_AnswersTable", answers);
+                using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+                {
+                    var answerRepository = new AnswerRepository(dbUnitOfWork);
+                    answer = answerRepository.Add(answer);
+                    var answers = answerRepository.GetAnswersForQuestion(answer.QuestionId, false);
+                    return PartialView("_AnswersTable", answers);
+                }
             }
-
             return View(answer);
         }
 
@@ -36,11 +37,11 @@ namespace QuizEngine.Areas.Admin.Controllers
             Answer answer = null;
             using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
             {
-                answer = AnswerRepository.GetAnswer(answerId, false);
+                var answerRepository = new AnswerRepository(dbUnitOfWork);
+                answer = answerRepository.Get(answerId, false);
                 // explicit load question for navigation
                 dbUnitOfWork.DbContext.Entry(answer).Reference(a => a.Question).Load();
             }
-
             return View(answer);
         }
 
@@ -50,9 +51,12 @@ namespace QuizEngine.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
-                answer = AnswerRepository.UpdateAnswer(answer);
+                using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+                {
+                    var answerRepository = new AnswerRepository(dbUnitOfWork);
+                    answer = answerRepository.Update(answer);
+                }
             }
-
             return PartialView("_AnswerForm", answer);
         }
 
@@ -60,10 +64,13 @@ namespace QuizEngine.Areas.Admin.Controllers
         [Route("~/questions/{questionId:long}/delete/{answerId:long}")]
         public ActionResult DeleteAnswer(long answerId, long questionId)
         {
-            AnswerRepository.DeleteAnswer(answerId);
-
-            var answers = AnswerRepository.GetAnswersForQuestion(questionId, false);
-
+            IEnumerable<Answer> answers = null;
+            using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var answerRepository = new AnswerRepository(dbUnitOfWork);
+                answerRepository.Delete(answerId);
+                answers = answerRepository.GetAnswersForQuestion(questionId, false);
+            }
             return PartialView("_AnswersTable", answers);
         }
     }

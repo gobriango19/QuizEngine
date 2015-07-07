@@ -49,10 +49,15 @@
     <Compile Include="DbContextStateManagers\CallDbContextStateManager.cs" />
     <Compile Include="DbContextStateManagers\HttpDbContextStateManager.cs" />
     <Compile Include="DbUnitOfWork.cs" />
+    <Compile Include="Interfaces\IQuestionRepository.cs" />
+    <Compile Include="Interfaces\IResultRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuizEngineDbContext.cs" />
     <Compile Include="QuizEngineDbContext.Views.cs" />
     <Compile Include="Repositories\AnswerRepository.cs" />
+    <Compile Include="Interfaces\IAnswerRepository.cs" />
+    <Compile Include="Interfaces\IQuizRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Repositories\QuestionRepository.cs" />
     <Compile Include="Repositories\QuizRepository.cs" />
     <Compile Include="Repositories\ResultRepository.cs" />

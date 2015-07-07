@@ -22,13 +22,16 @@ namespace QuizEngine.Controllers.API
         [Route("~/api/quizzes/{quizId:long}/questions")]
         public IHttpActionResult GetQuestions(long quizId, bool activeQuizOnly = true)
         {
-            var questions = QuestionRepository.GetQuestionsForQuiz(quizId, activeQuizOnly);
-
-            if(questions == null || questions.Count == 0)
+            IEnumerable<Question> questions = null;
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                questions = questionRepository.GetQuestionsForQuiz(quizId, activeQuizOnly);
+            }
+            if(questions == null || questions.ToList().Count == 0)
             {
                 return NotFound();
             }
-
             return Ok(questions);
         }
 
@@ -36,13 +39,16 @@ namespace QuizEngine.Controllers.API
         [Route("{questionId:long}")]
         public IHttpActionResult GetQuestion(long questionId, bool activeQuizOnly = true)
         {
-            var question = QuestionRepository.GetQuestion(questionId, activeQuizOnly);
-
+            Question question = null;
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                question = questionRepository.Get(questionId, activeQuizOnly);
+            }
             if(question == null)
             {
                 return NotFound();
             }
-
             return Ok(question);
         }
 
@@ -55,9 +61,11 @@ namespace QuizEngine.Controllers.API
                 var errorMessage = ModelState.GenerateErrorMessage();
                 return BadRequest(errorMessage);
             }
-
-            QuestionRepository.AddQuestion(question);
-
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                questionRepository.Add(question);
+            }
             return Ok(question);
         }
 
@@ -70,9 +78,11 @@ namespace QuizEngine.Controllers.API
                 var errorMessage = ModelState.GenerateErrorMessage();
                 return BadRequest(errorMessage);
             }
-
-            QuestionRepository.UpdateQuestion(question);
-
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                questionRepository.Update(question);
+            }
             return Ok(question);
         }
 
@@ -80,7 +90,11 @@ namespace QuizEngine.Controllers.API
         [Route("{questionId:long}")]
         public void DeleteQuestion(long questionId)
         {
-            QuestionRepository.DeleteQuestion(questionId);
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var questionRepository = new QuestionRepository(dbUnitOfWork);
+                questionRepository.Delete(questionId);
+            }
         }
     }
 }

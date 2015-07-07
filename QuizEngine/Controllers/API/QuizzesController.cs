@@ -22,13 +22,16 @@ namespace QuizEngine.Controllers.API
         [Route("")]
         public IHttpActionResult GetQuizzes(bool activeOnly = true)
         {
-            var quizzes = QuizRepository.GetAllQuizzes(activeOnly);
-
-            if (quizzes == null || quizzes.Count == 0)
+            IEnumerable<Quiz> quizzes = null;
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var quizRepository = new QuizRepository(dbUnitOfWork);
+                quizzes = quizRepository.GetAllQuizzes(activeOnly);
+            }
+            if (quizzes == null || quizzes.ToList().Count == 0)
             {
                 return NotFound();
             }
-
             return Ok(quizzes);
         }
 
@@ -36,13 +39,16 @@ namespace QuizEngine.Controllers.API
         [Route("{quizId:long}")]
         public IHttpActionResult GetQuiz(long quizId, bool activeOnly = true)
         {
-            var quiz = QuizRepository.GetQuiz(quizId, activeOnly);
-
+            Quiz quiz = null;
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var quizRepository = new QuizRepository(dbUnitOfWork);
+                quiz = quizRepository.Get(quizId, activeOnly);
+            }
             if(quiz == null)
             {
                 return NotFound();
             }
-
             return Ok(quiz);
         }
 
@@ -55,9 +61,11 @@ namespace QuizEngine.Controllers.API
                 var errorMessage = ModelState.GenerateErrorMessage();
                 return BadRequest(errorMessage);
             }
-
-            QuizRepository.AddQuiz(quiz);
-
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var quizRepository = new QuizRepository(dbUnitOfWork);
+                quizRepository.Add(quiz);
+            }
             return Ok(quiz);
         }
 
@@ -70,9 +78,11 @@ namespace QuizEngine.Controllers.API
                 var errorMessage = ModelState.GenerateErrorMessage();
                 return BadRequest(errorMessage);
             }
-
-            QuizRepository.UpdateQuiz(quiz);
-
+            using(var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var quizRepository = new QuizRepository(dbUnitOfWork);
+                quizRepository.Update(quiz);
+            }
             return Ok(quiz);
         }
 
@@ -80,7 +90,11 @@ namespace QuizEngine.Controllers.API
         [Route("{quizId:long}")]
         public void DeleteQuiz(long quizId)
         {
-            QuizRepository.DeleteQuiz(quizId);
+            using (var dbUnitOfWork = new DbUnitOfWork<QuizEngineDbContext>())
+            {
+                var quizRepository = new QuizRepository(dbUnitOfWork);
+                quizRepository.Delete(quizId);
+            }
         }
     }
 }
